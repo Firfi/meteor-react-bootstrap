@@ -3,31 +3,29 @@
 [Bootstrap 3][bootstrap] components built with [React][react]
 
 [![Travis Build Status][build-badge]][build]
-[![NPM version][npm-badge]][npm]
-[![Bower version][bower-badge]][bower]
+[![Build status][appveyor-badge]][appveyor]
+
 [![HuBoard][huboard-badge]][huboard]
 [![Gitter][gitter-badge]][gitter]
+
+[![NPM version][npm-badge]][npm]
+[![Bower version][bower-badge]][bower]
 
 [![Dependency Status][deps-badge]][deps]
 [![devDependency Status][dev-deps-badge]][dev-deps]
 [![peerDependency Status][peer-deps-badge]][peer-deps]
 
-Under active development - APIs will change.
+__Under active development - APIs will change.__ Check out the [1.0.0 Roadmap](https://github.com/react-bootstrap/react-bootstrap/wiki#100-roadmap) and [Contributing Guidelines][contributing] to see where you can help out. Prior to the 1.0.0 release, breaking changes should result in a Minor version bump.
 
 ## Docs
 
 See the [documentation][documentation] with live editable examples.
 
-## Authors
-
-- [Stephen J. Collings](https://github.com/stevoland)
-- [Pieter Vanderwerff](https://github.com/pieterv)
-
-and many [contributors](https://github.com/react-bootstrap/react-bootstrap/graphs/contributors)
-
 ## Related modules
 
 - [react-router-bootstrap][react-router-bootstrap] - Integration with [react-router][react-router].
+- [Complementary Tools][complementary-tools] - List of complementary tools that
+  can be used with React.
 
 ## Local Setup
 
@@ -69,11 +67,13 @@ Yes please! See the [contributing guidelines][contributing] for details.
 [peer-deps-badge]: https://david-dm.org/react-bootstrap/react-bootstrap/peer-status.svg
 [peer-deps]: https://david-dm.org/react-bootstrap/react-bootstrap#info=peerDependencies 
 
-[react-router-bootstrap]: https://github.com/mtscout6/react-router-bootstrap
+[react-router-bootstrap]: https://github.com/react-bootstrap/react-router-bootstrap
 [react-router]: https://github.com/rackt/react-router
+
+[complementary-tools]: https://github.com/facebook/react/wiki/Complementary-Tools
 
 [huboard-badge]: https://img.shields.io/badge/Hu-Board-7965cc.svg
 [huboard]: https://huboard.com/react-bootstrap/react-bootstrap
 
 [appveyor-badge]: https://ci.appveyor.com/api/projects/status/ylitpyo6n5yq1s6i/branch/master?svg=true
-[appveyor]: https://ci.appveyor.com/project/mtscout6/react-bootstrap/branch/master
+[appveyor]: https://ci.appveyor.com/project/react-bootstrap/react-bootstrap/branch/master

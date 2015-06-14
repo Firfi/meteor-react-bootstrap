@@ -1,51 +1,104 @@
-/* eslint-disable */
-import React from 'react';
-import classNames from 'classnames';
-import Accordion from '../../src/Accordion';
-import Alert from '../../src/Alert';
-import Badge from '../../src/Badge';
-import Button from '../../src/Button';
-import ButtonGroup from '../../src/ButtonGroup';
-import ButtonToolbar from '../../src/ButtonToolbar';
-import CollapsableNav from '../../src/CollapsableNav';
-import CollapsableMixin from '../../src/CollapsableMixin';
-import Carousel from '../../src/Carousel';
-import CarouselItem from '../../src/CarouselItem';
-import Col from '../../src/Col';
-import DropdownButton from '../../src/DropdownButton';
-import Glyphicon from '../../src/Glyphicon';
-import Grid from '../../src/Grid';
-import Input from '../../src/Input';
-import Jumbotron from '../../src/Jumbotron';
-import Label from '../../src/Label';
-import ListGroup from '../../src/ListGroup';
-import ListGroupItem from '../../src/ListGroupItem';
-import Nav from '../../src/Nav';
-import Navbar from '../../src/Navbar';
-import NavItem from '../../src/NavItem';
-import MenuItem from '../../src/MenuItem';
-import Modal from '../../src/Modal';
-import ModalTrigger from '../../src/ModalTrigger';
-import OverlayTrigger from '../../src/OverlayTrigger';
-import OverlayMixin from '../../src/OverlayMixin';
-import PageHeader from '../../src/PageHeader';
-import PageItem from '../../src/PageItem';
-import Pager from '../../src/Pager';
-import Panel from '../../src/Panel';
-import PanelGroup from '../../src/PanelGroup';
-import Popover from '../../src/Popover';
-import ProgressBar from '../../src/ProgressBar';
-import Row from '../../src/Row';
-import SplitButton from '../../src/SplitButton';
-import TabbedArea from '../../src/TabbedArea';
-import Table from '../../src/Table';
-import TabPane from '../../src/TabPane';
-import Tooltip from '../../src/Tooltip';
-import Well from '../../src/Well';
-/* eslint-enable */
+import * as modReact from 'react';
+import * as modClassNames from 'classnames';
+import * as modAccordion from '../../src/Accordion';
+import * as modAlert from '../../src/Alert';
+import * as modBadge from '../../src/Badge';
+import * as modmodButton from '../../src/Button';
+import * as modButtonGroup from '../../src/ButtonGroup';
+import * as modButtonInput from '../../src/ButtonInput';
+import * as modmodButtonToolbar from '../../src/ButtonToolbar';
+import * as modCollapsibleNav from '../../src/CollapsibleNav';
+import * as modCollapsibleMixin from '../../src/CollapsibleMixin';
+import * as modCarousel from '../../src/Carousel';
+import * as modCarouselItem from '../../src/CarouselItem';
+import * as modCol from '../../src/Col';
+import * as modDropdownButton from '../../src/DropdownButton';
+import * as modFormControls from '../../src/FormControls';
+import * as modGlyphicon from '../../src/Glyphicon';
+import * as modGrid from '../../src/Grid';
+import * as modInput from '../../src/Input';
+import * as modJumbotron from '../../src/Jumbotron';
+import * as modLabel from '../../src/Label';
+import * as modListGroup from '../../src/ListGroup';
+import * as modListGroupItem from '../../src/ListGroupItem';
+import * as modNav from '../../src/Nav';
+import * as modNavbar from '../../src/Navbar';
+import * as modNavItem from '../../src/NavItem';
+import * as modMenuItem from '../../src/MenuItem';
+import * as modModal from '../../src/Modal';
+import * as modModalTrigger from '../../src/ModalTrigger';
+import * as modOverlayTrigger from '../../src/OverlayTrigger';
+import * as modOverlayMixin from '../../src/OverlayMixin';
+import * as modPageHeader from '../../src/PageHeader';
+import * as modPageItem from '../../src/PageItem';
+import * as modPager from '../../src/Pager';
+import * as modPagination from '../../src/Pagination';
+import * as modPanel from '../../src/Panel';
+import * as modPanelGroup from '../../src/PanelGroup';
+import * as modPopover from '../../src/Popover';
+import * as modProgressBar from '../../src/ProgressBar';
+import * as modRow from '../../src/Row';
+import * as modSplitButton from '../../src/SplitButton';
+import * as modTabbedArea from '../../src/TabbedArea';
+import * as modTable from '../../src/Table';
+import * as modTabPane from '../../src/TabPane';
+import * as modThumbnail from '../../src/Thumbnail';
+import * as modTooltip from '../../src/Tooltip';
+import * as modWell from '../../src/Well';
 
-import {CodeMirror, IS_NODE} from './CodeMirror';
-import babel from 'babel/browser';
+import babel from 'babel-core/browser';
+
+import CodeExample from './CodeExample';
+
+const classNames = modClassNames.default;
+/* eslint-disable */
+const React = modReact.default;
+const Accordion = modAccordion.default;
+const Alert = modAlert.default;
+const Badge = modBadge.default;
+const Button = modmodButton.default;
+const ButtonGroup = modButtonGroup.default;
+const ButtonInput = modButtonInput.default;
+const ButtonToolbar = modmodButtonToolbar.default;
+const CollapsibleNav = modCollapsibleNav.default;
+const CollapsibleMixin = modCollapsibleMixin.default;
+const Carousel = modCarousel.default;
+const CarouselItem = modCarouselItem.default;
+const Col = modCol.default;
+const DropdownButton = modDropdownButton.default;
+const FormControls = modFormControls.default;
+const Glyphicon = modGlyphicon.default;
+const Grid = modGrid.default;
+const Input = modInput.default;
+const Jumbotron = modJumbotron.default;
+const Label = modLabel.default;
+const ListGroup = modListGroup.default;
+const ListGroupItem = modListGroupItem.default;
+const Nav = modNav.default;
+const Navbar = modNavbar.default;
+const NavItem = modNavItem.default;
+const MenuItem = modMenuItem.default;
+const Modal = modModal.default;
+const ModalTrigger = modModalTrigger.default;
+const OverlayTrigger = modOverlayTrigger.default;
+const OverlayMixin = modOverlayMixin.default;
+const PageHeader = modPageHeader.default;
+const PageItem = modPageItem.default;
+const Pagination = modPagination.default;
+const Pager = modPager.default;
+const Panel = modPanel.default;
+const PanelGroup = modPanelGroup.default;
+const Popover = modPopover.default;
+const ProgressBar = modProgressBar.default;
+const Row = modRow.default;
+const SplitButton = modSplitButton.default;
+const TabbedArea = modTabbedArea.default;
+const Table = modTable.default;
+const TabPane = modTabPane.default;
+const Thumbnail = modThumbnail.default;
+const Tooltip = modTooltip.default;
+const Well = modWell.default;
+/* eslint-enable */
 
 const IS_MOBILE = typeof navigator !== 'undefined' && (
   navigator.userAgent.match(/Android/i)
@@ -57,13 +110,19 @@ const IS_MOBILE = typeof navigator !== 'undefined' && (
     || navigator.userAgent.match(/Windows Phone/i)
   );
 
-const CodeMirrorEditor = React.createClass({
+class CodeMirrorEditor extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   componentDidMount() {
-    if (IS_MOBILE || IS_NODE) {
+    if (IS_MOBILE || CodeMirror === undefined) {
       return;
     }
 
-    this.editor = CodeMirror.fromTextArea(this.refs.editor.getDOMNode(), {
+    this.editor = CodeMirror.fromTextArea(React.findDOMNode(this.refs.editor), {
       mode: 'javascript',
       lineNumbers: false,
       lineWrapping: false,
@@ -73,27 +132,31 @@ const CodeMirrorEditor = React.createClass({
       readOnly: this.props.readOnly
     });
     this.editor.on('change', this.handleChange);
-  },
+  }
 
   componentDidUpdate() {
     if (this.props.readOnly) {
       this.editor.setValue(this.props.codeText);
     }
-  },
+  }
 
   handleChange() {
     if (!this.props.readOnly && this.props.onChange) {
       this.props.onChange(this.editor.getValue());
     }
-  },
+  }
 
   render() {
     // wrap in a div to fully contain CodeMirror
     let editor;
 
     if (IS_MOBILE) {
-      let preStyles = {overflow: 'scroll'};
-      editor = <pre style={preStyles}>{this.props.codeText}</pre>;
+      editor = (
+        <CodeExample
+          mode='javascript'
+          codeText={this.props.codeText}
+        />
+      );
     } else {
       editor = <textarea ref='editor' defaultValue={this.props.codeText} />;
     }
@@ -104,14 +167,14 @@ const CodeMirrorEditor = React.createClass({
       </div>
       );
   }
-});
+}
 
 const selfCleaningTimeout = {
   componentDidUpdate() {
     clearTimeout(this.timeoutID);
   },
 
-  setTimeout() {
+  updateTimeout() {
     clearTimeout(this.timeoutID);
     this.timeoutID = setTimeout.apply(null, arguments);
   }
@@ -149,7 +212,7 @@ const ReactPlayground = React.createClass({
   },
 
   handleCodeModeSwitch(mode) {
-    this.setState({mode: mode});
+    this.setState({mode});
   },
 
   handleCodeModeToggle(e) {
@@ -166,7 +229,7 @@ const ReactPlayground = React.createClass({
         mode = this.MODES.NONE;
     }
 
-    this.setState({mode: mode});
+    this.setState({mode});
   },
 
   compileCode() {
@@ -220,7 +283,7 @@ const ReactPlayground = React.createClass({
   },
 
   componentWillUnmount() {
-    let mountNode = this.refs.mount.getDOMNode();
+    let mountNode = React.findDOMNode(this.refs.mount);
     try {
       React.unmountComponentAtNode(mountNode);
     } catch (e) {
@@ -229,7 +292,7 @@ const ReactPlayground = React.createClass({
   },
 
   executeCode() {
-    let mountNode = this.refs.mount.getDOMNode();
+    let mountNode = React.findDOMNode(this.refs.mount);
 
     try {
       React.unmountComponentAtNode(mountNode);
@@ -237,8 +300,10 @@ const ReactPlayground = React.createClass({
       console.error(e);
     }
 
+    let compiledCode = null;
     try {
-      let compiledCode = this.compileCode();
+      compiledCode = this.compileCode();
+
       if (this.props.renderCode) {
         React.render(
           <CodeMirrorEditor codeText={compiledCode} readOnly={true} />,
@@ -250,7 +315,13 @@ const ReactPlayground = React.createClass({
         /* eslint-enable */
       }
     } catch (err) {
-      this.setTimeout(() => {
+      if (compiledCode !== null) {
+        console.log(err, compiledCode);
+      } else {
+        console.log(err);
+      }
+
+      this.updateTimeout(() => {
         React.render(
           <Alert bsStyle='danger'>{err.toString()}</Alert>,
           mountNode

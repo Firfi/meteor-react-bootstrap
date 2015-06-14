@@ -1,46 +1,46 @@
+import 'colors';
 import React from 'react';
 import express from 'express';
 import path from 'path';
-import url from 'url';
-import webpack from 'webpack';
-import webpackMiddleware from 'webpack-dev-middleware';
-import webpackConfigBuilder from '../webpack/webpack.config';
 import Router from 'react-router';
 import routes from './src/Routes';
+import httpProxy from 'http-proxy';
+import ip from 'ip';
 
 const development = process.env.NODE_ENV !== 'production';
+const port = process.env.PORT || 4000;
+
 let app = express();
 
 if (development) {
-  let webpackConfig = webpackConfigBuilder({
-    development: development,
-    docs: true
+  let proxy = httpProxy.createProxyServer();
+  let webpackPort = process.env.WEBPACK_DEV_PORT;
+  let target = `http://${ip.address()}:${webpackPort}`;
+
+  app.get('/assets/*', function (req, res) {
+    proxy.web(req, res, { target });
   });
-  let publicPath = webpackConfig.output.publicPath;
 
-  webpackConfig.output.path = '/';
-  webpackConfig.output.publicPath = undefined;
+  app.use(function renderApp(req, res) {
+    res.header('Access-Control-Allow-Origin', target);
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-  app = app
-    .use(webpackMiddleware(webpack(webpackConfig), {
-      noInfo: false,
-      publicPath: publicPath,
-      stats: {
-          colors: true
-      }
-    }))
-    .use(function renderApp(req, res) {
-      Router.run(routes, req.url, Handler => {
-        let html = React.renderToString(<Handler />);
-        res.send(html);
-      });
+    Router.run(routes, req.url, Handler => {
+      let html = React.renderToString(<Handler assetBaseUrl={target} />);
+      res.send('<!doctype html>' + html);
     });
+  });
+
+  proxy.on('error', function(e) {
+    console.log('Could not connect to webpack proxy'.red);
+    console.log(e.toString().red);
+  });
 } else {
-  app = app
-    .use(express.static(path.join(__dirname, '../docs-built')));
+  app.use(express.static(path.join(__dirname, '../docs-built')));
 }
 
-app
-  .listen(4000, function () {
-    console.log('Server started at http://localhost:4000');
-  });
+app.listen(port, function () {
+  console.log(`Server started at:`);
+  console.log(`- http://localhost:${port}`);
+  console.log(`- http://${ip.address()}:${port}`);
+});

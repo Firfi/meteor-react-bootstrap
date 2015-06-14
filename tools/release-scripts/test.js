@@ -1,5 +1,5 @@
-import from 'colors';
-import { exec, spawn } from 'child-process-promise';
+import 'colors';
+import { exec } from '../exec';
 
 function test() {
   console.log('Running: '.cyan + 'tests'.green);
@@ -15,9 +15,14 @@ function lint() {
     .then(() => console.log('Completed: '.cyan + 'eslint'.green));
 }
 
-export default function testAndLint() {
+function testAndLint() {
   return Promise.all([
     test(),
     lint()
   ]);
 }
+
+export {
+  testAndLint as default,
+  lint
+};

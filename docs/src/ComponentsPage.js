@@ -30,15 +30,15 @@ const ComponentsPage = React.createClass({
   },
 
   componentDidMount() {
-    let elem = this.refs.sideNav.getDOMNode(),
+    let elem = React.findDOMNode(this.refs.sideNav),
         domUtils = Affix.domUtils,
         sideNavOffsetTop = domUtils.getOffset(elem).top,
         sideNavMarginTop = parseInt(domUtils.getComputedStyles(elem.firstChild).marginTop, 10),
-        topNavHeight = this.refs.topNav.getDOMNode().offsetHeight;
+        topNavHeight = React.findDOMNode(this.refs.topNav).offsetHeight;
 
     this.setState({
       navOffsetTop: sideNavOffsetTop - topNavHeight - sideNavMarginTop,
-      navOffsetBottom: this.refs.footer.getDOMNode().offsetHeight
+      navOffsetBottom: React.findDOMNode(this.refs.footer).offsetHeight
     });
   },
 
@@ -59,8 +59,7 @@ const ComponentsPage = React.createClass({
                 <div className='bs-docs-section'>
                   <h1 id='buttons' className='page-header'>Buttons <small>Button</small></h1>
                   <h2 id='buttons-options'>Options</h2>
-                  <p>Use any of the available button style types to quickly create a styled button. Just modify the
-                    <code>bsStyle</code> prop.</p>
+                  <p>Use any of the available button style types to quickly create a styled button. Just modify the <code>bsStyle</code> prop.</p>
                   <ReactPlayground codeText={Samples.ButtonTypes} />
                   <div className='bs-callout bs-callout-warning'>
                     <h4>Button spacing</h4>
@@ -69,11 +68,10 @@ const ComponentsPage = React.createClass({
                     button group in <code>{'<ButtonToolbar />'}</code>.</p>
                   </div>
                   <h2 id='buttons-sizes'>Sizes</h2>
-                  <p>Fancy larger or smaller buttons? Add <code>bsSize='large'</code>, <code>bsSize='small'</code>, or <code>bsSize='xsmall'</code> for additional sizes.</p>
+                  <p>Fancy larger or smaller buttons? Add <code>bsSize="large"</code>, <code>bsSize="small"</code>, or <code>bsSize="xsmall"</code> for additional sizes.</p>
                   <ReactPlayground codeText={Samples.ButtonSizes} />
 
-                  <p>Create block level buttons—those that span the full width of a parent— by adding the
-                      <code>block</code> prop.</p>
+                  <p>Create block level buttons—those that span the full width of a parent— by adding the <code>block</code> prop.</p>
                   <ReactPlayground codeText={Samples.ButtonBlock} />
 
                   <h2 id='buttons-active'>Active state</h2>
@@ -81,8 +79,7 @@ const ComponentsPage = React.createClass({
                   <ReactPlayground codeText={Samples.ButtonActive} />
 
                   <h2 id='buttons-disabled'>Disabled state</h2>
-                  <p>Make buttons look unclickable by fading them back 50%. To do this add the <code>disabled</code>
-                    attribute to buttons.</p>
+                  <p>Make buttons look unclickable by fading them back 50%. To do this add the <code>disabled</code> attribute to buttons.</p>
                   <ReactPlayground codeText={Samples.ButtonDisabled} />
 
                   <div className='bs-callout bs-callout-warning'>
@@ -92,15 +89,15 @@ const ComponentsPage = React.createClass({
                   </div>
 
                   <h2 id='buttons-tags'>Button tags</h2>
-                  <p>The DOM element tag is choosen automaticly for you based on the props you supply. Passing a
-                    <code>href</code> will result in the button using a <code>{'<a />'}</code> element otherwise a
-                    <code>{'<button />'}</code> element will be used.</p>
+                  <p>The DOM element tag is choosen automatically for you based on the props you supply. Passing
+                    a <code>href</code> will result in the button using a <code>{'<a />'}</code> element otherwise
+                    a <code>{'<button />'}</code> element will be used.</p>
                   <ReactPlayground codeText={Samples.ButtonTagTypes} />
 
                   <h2 id='buttons-tags'>Button loading state</h2>
                   <p>When activating an asynchronous action from a button it is a good UX pattern to give the user
-                    feedback as to the loading state, this can easily be done by updating your
-                    <code>{'<Button />'}</code>&#8217;s props from a state change like below.</p>
+                    feedback as to the loading state, this can easily be done by updating
+                    your <code>{'<Button />'}</code>&#8217;s props from a state change like below.</p>
                   <ReactPlayground codeText={Samples.ButtonLoading} />
                 </div>
 
@@ -110,29 +107,29 @@ const ComponentsPage = React.createClass({
                   <p className='lead'>Group a series of buttons together on a single line with the button group.</p>
 
                   <h3 id='btn-groups-single'>Basic example</h3>
-                  <p>Wrap a series of <code>{'<Button />'}</code>&#8217;s in a <code>{'<ButtonGroup />'}</code>.</p>
+                  <p>Wrap a series of <code>{'<Button />'}</code>s in a <code>{'<ButtonGroup />'}</code>.</p>
                   <ReactPlayground codeText={Samples.ButtonGroupBasic} />
 
                   <h3 id='btn-groups-toolbar'>Button toolbar</h3>
-                  <p>Combine sets of <code>{'<ButtonGroup />'}</code>&#8217;s into a <code>{'<ButtonToolbar />'}</code>
-                    for more complex components.</p>
+                  <p>Combine sets of <code>{'<ButtonGroup />'}</code>s into a <code>{'<ButtonToolbar />'}</code> for more complex components.</p>
                   <ReactPlayground codeText={Samples.ButtonToolbarBasic} />
 
                   <h3 id='btn-groups-sizing'>Sizing</h3>
-                  <p>Instead of applying button sizing props to every button in a group, just add <code>bsSize</code>
-                    prop to the <code>{'<ButtonGroup />'}</code>.</p>
+                  <p>Instead of applying button sizing props to every button in a group, just add <code>bsSize</code> prop to the <code>{'<ButtonGroup />'}</code>.</p>
                   <ReactPlayground codeText={Samples.ButtonGroupSizes} />
 
                   <h3 id='btn-groups-nested'>Nesting</h3>
-                  <p>You can place other button types within the <code>{'<ButtonGroup />'}</code> like
-                    <code>{'<DropdownButton />'}</code>&#8217;s.</p>
+                  <p>You can place other button types within the <code>{'<ButtonGroup />'}</code> like <code>{'<DropdownButton />'}</code>s.</p>
                   <ReactPlayground codeText={Samples.ButtonGroupNested} />
 
                   <h3 id='btn-groups-vertical'>Vertical variation</h3>
-                  <p>Make a set of buttons appear vertically stacked rather than horizontally.
-                    <strong className='text-danger'>Split button dropdowns are not supported here.</strong></p>
+                  <p>Make a set of buttons appear vertically stacked rather than horizontally. <strong
+                    className='text-danger'>Split button dropdowns are not supported here.</strong></p>
                   <p>Just add <code>vertical</code> to the <code>{'<ButtonGroup />'}</code>.</p>
                   <ReactPlayground codeText={Samples.ButtonGroupVertical} />
+                  <br />
+                  <p>Moreover, you can have buttons be block level elements so they take the full width of their container, just add <code>block</code> to the <code>{'<ButtonGroup />'}</code>, in addition to the <code>vertical</code> you just added.</p>
+                  <ReactPlayground codeText={Samples.ButtonGroupBlock} />
 
                   <h3 id='btn-groups-justified'>Justified button groups</h3>
                   <p>Make a group of buttons stretch at equal sizes to span the entire width of its parent. Also works with button dropdowns within the button group.</p>
@@ -173,6 +170,25 @@ const ComponentsPage = React.createClass({
                   <ReactPlayground codeText={Samples.SplitButtonRight} />
                 </div>
 
+                {/* Menu Item */}
+                <div className='bs-docs-section'>
+                  <h1 id='menu-item' className='page-header'>Menu Item <small> MenudItem</small></h1>
+                  <p>This is a component used in other components (see <a href="buttons">Buttons</a>, <a href="#navbars">Navbars</a>).</p>
+                  <p>It supports the basic anchor properties <code>href</code>, <code>target</code>, <code>title</code>.</p>
+                  <p>It also supports different properties of the normal Bootstrap MenuItem.
+                    <ul>
+                      <li><code>header</code>: To add a header label to sections</li>
+                      <li><code>divider</code>: Adds an horizontal divider between sections</li>
+                      <li><code>disabled</code>: shows the item as disabled, and prevents the onclick</li>
+                      <li><code>eventKey</code>: passed to the callback</li>
+                      <li><code>onSelect</code>: a callback that is called when the user clicks the item.</li>
+                    </ul>
+                  <p>The callback is called with the following arguments: <code>eventKey</code>, <code>href</code> and <code>target</code></p>
+                  </p>
+                  <ReactPlayground codeText={Samples.MenuItem} />
+                </div>
+
+              {/* Panels */}
                 <div className='bs-docs-section'>
                   <h1 id='panels' className='page-header'>Panels <small>Panel, PanelGroup, Accordion</small></h1>
 
@@ -208,9 +224,9 @@ const ComponentsPage = React.createClass({
                   <p><code>&lt;Accordion /&gt;</code> aliases <code>&lt;PanelGroup accordion /&gt;</code>.</p>
                   <ReactPlayground codeText={Samples.PanelGroupAccordion} />
 
-                  <h3 id='panels-collapsable'>Collapsable Mixin</h3>
-                  <p><code>CollapsableMixin</code> can be used to create your own components with collapse functionality.</p>
-                  <ReactPlayground codeText={Samples.CollapsableParagraph} />
+                  <h3 id='panels-collapsible'>Collapsible Mixin</h3>
+                  <p><code>CollapsibleMixin</code> can be used to create your own components with collapse functionality.</p>
+                  <ReactPlayground codeText={Samples.CollapsibleParagraph} />
                 </div>
 
                 <div className='bs-docs-section'>
@@ -226,7 +242,7 @@ const ComponentsPage = React.createClass({
                   <ReactPlayground codeText={Samples.ModalTrigger} />
 
                   <h3 id='modals-custom'>Custom trigger</h3>
-                  <p>Use <code>&lt;OverlayMixin /&gt;</code> in a custom component to manage the modal's state yourself.</p>
+                  <p>Use <code>OverlayMixin</code> in a custom component to manage the modal's state yourself.</p>
                   <ReactPlayground codeText={Samples.ModalOverlayMixin} />
 
                   <h3 id='modals-custom'>Contained Modal</h3>
@@ -242,6 +258,14 @@ const ComponentsPage = React.createClass({
                     )}
                   </pre>
                   <ReactPlayground codeText={Samples.ModalContained} />
+
+                  <h3 id='modal-default-sizing'>Sizing modals using standard Bootstrap props</h3>
+                  <p>You can specify a bootstrap large or small modal by using the "bsSize" prop.</p>
+                  <ReactPlayground codeText={Samples.ModalDefaultSizing} />
+
+                  <h3 id='modal-custom-sizing'>Sizing modals using custom css</h3>
+                  <p>You can apply custom css to the modal dialog div using the "dialogClassName" prop. Example is using a custom css class with width set to 90%.</p>
+                  <ReactPlayground codeText={Samples.ModalCustomSizing} />
                 </div>
 
                 {/* Tooltip */}
@@ -264,14 +288,20 @@ const ComponentsPage = React.createClass({
                   <h1 id='popovers' className='page-header'>Popovers <small>Popover</small></h1>
                   <h2 id='popovers-examples'>Example popovers</h2>
 
-                  <p>Popovers component.</p>
+                  <p>Popover component.</p>
                   <ReactPlayground codeText={Samples.PopoverBasic} />
 
-                  <p>Popovers component.</p>
+                  <p>Positioned popover component.</p>
                   <ReactPlayground codeText={Samples.PopoverPositioned} />
 
-                  <p>Popovers scrolling.</p>
-                  <ReactPlayground codeText={Samples.PopoverPositionedContained} exampleClassName='bs-example-scroll' />
+                  <p>Trigger behaviors. It's inadvisable to use <code>"hover"</code> or <code>"focus"</code> triggers for popovers, because they have poor accessibility from keyboard and on mobile devices.</p>
+                  <ReactPlayground codeText={Samples.PopoverTriggerBehaviors} />
+
+                  <p>Popover component in container.</p>
+                  <ReactPlayground codeText={Samples.PopoverContained} exampleClassName='bs-example-popover-contained' />
+
+                  <p>Positioned popover components in scrolling container.</p>
+                  <ReactPlayground codeText={Samples.PopoverPositionedScrolling} exampleClassName='bs-example-popover-scroll' />
                 </div>
 
                 {/* Progress Bar */}
@@ -335,19 +365,23 @@ const ComponentsPage = React.createClass({
                 <div className='bs-docs-section'>
                   <h1 id='navbars' className='page-header'>Navbars <small>Navbar, Nav, NavItem</small></h1>
                   <h2 id='navbars-examples'>Example navbars</h2>
-                  <p>You can specify a brand by passing a renderable component or string in <code>brand</code></p>
-                  <p>Navbars are by default accessible and will provide <code>role='navigation'</code>.</p>
+                  <p>Navbars are by default accessible and will provide <code>role="navigation"</code>.</p>
                   <p>They also supports all the different Bootstrap classes as properties. Just camelCase the css class and remove navbar from it. For example <code>navbar-fixed-top</code> becomes the property <code>fixedTop</code>. The different properties are <code>fixedTop</code>, <code>fixedBottom</code>, <code>staticTop</code>, <code>inverse</code>, <code>fluid</code>.</p>
                   <p>You can drag elements to the right by specifying the <code>right</code> property on a nav group.</p>
 
+                  <h3>Navbar Basic Example</h3>
                   <ReactPlayground codeText={Samples.NavbarBasic} />
+
+                  <h3>Navbar Brand Example</h3>
+                  <p>You can specify a brand by passing in a string to <code>brand</code>, or you can pass in a renderable component.</p>
+                  <ReactPlayground codeText={Samples.NavbarBrand} />
 
                   <h3>Mobile Friendly</h3>
                   <p>To have a mobile friendly Navbar, specify the property <code>toggleNavKey</code> on the Navbar with a value corresponding to an <code>eventKey</code> of one of his <code>Nav</code> children. This child will be the one collapsed.</p>
                   <p>By setting the property {React.DOM.code(null, 'defaultNavExpanded={true}')} the Navbar will start expanded by default.</p>
                   <div className='bs-callout bs-callout-info'>
                     <h4>Scrollbar overflow</h4>
-                    <p>The height of the collapsable is slightly smaller than the real height. To hide the scroll bar, add the following css to your style files.</p>
+                    <p>The height of the collapsible is slightly smaller than the real height. To hide the scroll bar, add the following css to your style files.</p>
                     <pre>
                       {React.DOM.code(null,
                         '.navbar-collapse {\n' +
@@ -356,17 +390,17 @@ const ComponentsPage = React.createClass({
                       )}
                     </pre>
                   </div>
-                  <ReactPlayground codeText={Samples.NavbarCollapsable} />
+                  <ReactPlayground codeText={Samples.NavbarCollapsible} />
 
                   <h3>Mobile Friendly (Multiple Nav Components)</h3>
-                  <p>To have a mobile friendly Navbar that handles multiple <code>Nav</code> components use <code>CollapsableNav</code>. The <code>toggleNavKey</code> must still be set, however, the corresponding <code>eventKey</code> must now be on the <code>CollapsableNav</code> component.</p>
+                  <p>To have a mobile friendly Navbar that handles multiple <code>Nav</code> components use <code>CollapsibleNav</code>. The <code>toggleNavKey</code> must still be set, however, the corresponding <code>eventKey</code> must now be on the <code>CollapsibleNav</code> component.</p>
                   <div className="bs-callout bs-callout-info">
                     <h4>Div collapse</h4>
-                    <p>The <code>navbar-collapse</code> div gets created as the collapsable element which follows the <a href="http://getbootstrap.com/components/#navbar-default">bootstrap</a> collapsable navbar documentation.</p>
+                    <p>The <code>navbar-collapse</code> div gets created as the collapsible element which follows the <a href="http://getbootstrap.com/components/#navbar-default">bootstrap</a> collapsible navbar documentation.</p>
                     <pre>&lt;div class="collapse navbar-collapse"&gt;&lt;/div&gt;</pre>
                   </div>
 
-                  <ReactPlayground codeText={Samples.CollapsableNav} />
+                  <ReactPlayground codeText={Samples.CollapsibleNav} />
                 </div>
 
                 {/* Tabbed Areas */}
@@ -411,6 +445,19 @@ const ComponentsPage = React.createClass({
                   <ReactPlayground codeText={Samples.PagerDisabled} />
                 </div>
 
+                {/* Pagination */}
+                <div className='bs-docs-section'>
+                  <h1 id='pagination' className='page-header'>Pagination <small>Pagination</small></h1>
+                  <h2 id='pagination-examples'>Example pagination</h2>
+
+                  <p>Provide pagination links for your site or app with the multi-page pagination component. Set <code>items</code> to the number of pages. <code>activePage</code> prop dictates which page is active</p>
+                  <ReactPlayground codeText={Samples.PaginationBasic} />
+
+                  <p>More options such as <code>first</code>, <code>last</code>, <code>previous</code>, <code>next</code> and <code>ellipsis</code>.</p>
+                  <ReactPlayground codeText={Samples.PaginationAdvanced} />
+
+                </div>
+
                 {/* Alerts */}
                 <div className='bs-docs-section'>
                   <h1 id='alerts' className='page-header'>Alert messages <small>Alert</small></h1>
@@ -446,6 +493,20 @@ const ComponentsPage = React.createClass({
                   <h2 id='grids-examples'>Example grids</h2>
 
                   <ReactPlayground codeText={Samples.GridBasic} exampleClassName='bs-example-tabs' />
+                </div>
+
+                {/* Thumbnail */}
+                <div className='bs-docs-section'>
+                <h1 id='thumbnail' className='page-header'>Thumbnail</h1>
+                <p>Thumbnails are designed to showcase linked images with minimal required markup. You can extend the grid component with thumbnails.</p>
+
+                  <h3>Anchor Thumbnail</h3>
+                  <p>Creates an anchor wrapping an image.</p>
+                  <ReactPlayground codeText={Samples.ThumbnailAnchor} />
+
+                  <h3>Divider Thumbnail</h3>
+                  <p>Creates a divider wrapping an image and other children elements.</p>
+                  <ReactPlayground codeText={Samples.ThumbnailDiv} />
                 </div>
 
                 {/* ListGroup */}
@@ -551,12 +612,20 @@ const ComponentsPage = React.createClass({
                   The helper method <code>getInputDOMNode()</code> returns the internal input element. If you don't want the <code>form-group</code> class applied apply the prop named <code>standalone</code>.</p>
                   <ReactPlayground codeText={Samples.Input} />
                   <h2 id='input-types'>Types</h2>
-                  <p>Supports <code>select</code>, <code>textarea</code>, <code>static</code> as well as standard HTML input types. <code>getValue()</code> returns an array for multiple select.</p>
+                  <p>Supports <code>select</code>, <code>textarea</code>, as well as standard HTML input types. <code>getValue()</code> returns an array for multiple select.</p>
                   <ReactPlayground codeText={Samples.InputTypes} />
+                  <p>Static text can be added to your form controls through the use of the <code>FormControls.Static</code> component.</p>
+                  <ReactPlayground codeText={Samples.StaticText} />
+                  <h2 id='button-input-types'>Button Input Types</h2>
+                  <p>Form buttons are encapsulated by <code>ButtonInput</code>. Pass in <code>type="reset"</code> or <code>type="submit"</code> to suit your needs. Styling is the same as <code>Button</code>.</p>
+                  <ReactPlayground codeText={Samples.ButtonInput} />
                   <h2 id='input-addons'>Add-ons</h2>
                   <p>Use <code>addonBefore</code> and <code>addonAfter</code> for normal addons, <code>buttonBefore</code> and <code>buttonAfter</code> for button addons.
                   Exotic configurations may require some css on your side.</p>
                   <ReactPlayground codeText={Samples.InputAddons} />
+                  <h2 id='input-sizes'>Sizes</h2>
+                  <p>Use <code>bsSize</code> to change the size of inputs. It also works with addons and most other options.</p>
+                  <ReactPlayground codeText={Samples.InputSizes} />
                   <h2 id='input-validation'>Validation</h2>
                   <p>Set <code>bsStyle</code> to one of <code>success</code>, <code>warning</code> or <code>error</code>.
                   Add <code>hasFeedback</code> to show glyphicon. Glyphicon may need additional styling if there is an add-on or no label.</p>
@@ -570,6 +639,7 @@ const ComponentsPage = React.createClass({
                   <code>getValue()</code> will not work when used this way.</p>
                   <ReactPlayground codeText={Samples.InputWrapper} />
                 </div>
+
               </div>
 
               <div className='col-md-3'>
@@ -586,6 +656,7 @@ const ComponentsPage = React.createClass({
                     <SubNav href='#buttons' key={1} text='Buttons'>
                       <NavItem href='#btn-groups' key={2}>Button groups</NavItem>
                       <NavItem href='#btn-dropdowns' key={3}>Button dropdowns</NavItem>
+                      <NavItem href='#menu-item' key={25}>Menu Item</NavItem>
                     </SubNav>
                     <NavItem href='#panels' key={4}>Panels</NavItem>
                     <NavItem href='#modals' key={5}>Modals</NavItem>
@@ -596,18 +667,20 @@ const ComponentsPage = React.createClass({
                     <NavItem href='#navbars' key={10}>Navbars</NavItem>
                     <NavItem href='#tabs' key={11}>Togglable tabs</NavItem>
                     <NavItem href='#pager' key={12}>Pager</NavItem>
-                    <NavItem href='#alerts' key={13}>Alerts</NavItem>
-                    <NavItem href='#carousels' key={14}>Carousels</NavItem>
-                    <NavItem href='#grids' key={15}>Grids</NavItem>
-                    <NavItem href='#listgroup' key={16}>List group</NavItem>
-                    <NavItem href='#labels' key={17}>Labels</NavItem>
-                    <NavItem href='#badges' key={18}>Badges</NavItem>
-                    <NavItem href='#jumbotron' key={19}>Jumbotron</NavItem>
-                    <NavItem href='#page-header' key={20}>Page Header</NavItem>
-                    <NavItem href='#wells' key={21}>Wells</NavItem>
-                    <NavItem href='#glyphicons' key={22}>Glyphicons</NavItem>
-                    <NavItem href='#tables' key={23}>Tables</NavItem>
-                    <NavItem href='#input' key={24}>Input</NavItem>
+                    <NavItem href='#pagination' key={13}>Pagination</NavItem>
+                    <NavItem href='#alerts' key={14}>Alerts</NavItem>
+                    <NavItem href='#carousels' key={15}>Carousels</NavItem>
+                    <NavItem href='#grids' key={16}>Grids</NavItem>
+                    <NavItem href='#thumbnail' key={17}>Thumbnail</NavItem>
+                    <NavItem href='#listgroup' key={18}>List group</NavItem>
+                    <NavItem href='#labels' key={19}>Labels</NavItem>
+                    <NavItem href='#badges' key={20}>Badges</NavItem>
+                    <NavItem href='#jumbotron' key={21}>Jumbotron</NavItem>
+                    <NavItem href='#page-header' key={22}>Page Header</NavItem>
+                    <NavItem href='#wells' key={23}>Wells</NavItem>
+                    <NavItem href='#glyphicons' key={24}>Glyphicons</NavItem>
+                    <NavItem href='#tables' key={25}>Tables</NavItem>
+                    <NavItem href='#input' key={26}>Input</NavItem>
                   </Nav>
                   <a className='back-to-top' href='#top'>
                   Back to top

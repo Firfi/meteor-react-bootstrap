@@ -1,15 +1,14 @@
 import React, { cloneElement } from 'react';
 import BootstrapMixin from './BootstrapMixin';
-import CollapsableMixin from './CollapsableMixin';
+import CollapsibleMixin from './CollapsibleMixin';
 import classNames from 'classnames';
 import domUtils from './utils/domUtils';
-
 
 import ValidComponentChildren from './utils/ValidComponentChildren';
 import createChainedFunction from './utils/createChainedFunction';
 
 const Nav = React.createClass({
-  mixins: [BootstrapMixin, CollapsableMixin],
+  mixins: [BootstrapMixin, CollapsibleMixin],
 
   propTypes: {
     activeHref: React.PropTypes.string,
@@ -18,7 +17,7 @@ const Nav = React.createClass({
     stacked: React.PropTypes.bool,
     justified: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
-    collapsable: React.PropTypes.bool,
+    collapsible: React.PropTypes.bool,
     expanded: React.PropTypes.bool,
     navbar: React.PropTypes.bool,
     eventKey: React.PropTypes.any,
@@ -32,11 +31,11 @@ const Nav = React.createClass({
     };
   },
 
-  getCollapsableDOMNode() {
+  getCollapsibleDOMNode() {
     return React.findDOMNode(this);
   },
 
-  getCollapsableDimensionValue: function () {
+  getCollapsibleDimensionValue() {
     let node = React.findDOMNode(this.refs.ul),
         height = node.offsetHeight,
         computedStyles = domUtils.getComputedStyles(node);
@@ -45,11 +44,9 @@ const Nav = React.createClass({
   },
 
   render() {
-    let classes = this.props.collapsable ? this.getCollapsableClassSet() : {};
+    const classes = this.props.collapsible ? this.getCollapsibleClassSet('navbar-collapse') : null;
 
-    classes['navbar-collapse'] = this.props.collapsable;
-
-    if (this.props.navbar && !this.props.collapsable) {
+    if (this.props.navbar && !this.props.collapsible) {
       return (this.renderUl());
     }
 
@@ -61,7 +58,7 @@ const Nav = React.createClass({
   },
 
   renderUl() {
-    let classes = this.getBsClassSet();
+    const classes = this.getBsClassSet();
 
     classes['nav-stacked'] = this.props.stacked;
     classes['nav-justified'] = this.props.justified;

@@ -17,13 +17,13 @@ describe('Modal', function () {
   it('Should add modal-open class to the modal container while open', function(done) {
 
     let Container = React.createClass({
-      getInitialState: function() {
+      getInitialState() {
         return {modalOpen: true};
       },
-      handleCloseModal: function() {
+      handleCloseModal() {
         this.setState({modalOpen: false});
       },
-      render: function() {
+      render() {
         if (this.state.modalOpen) {
           return (
             <Modal onRequestHide={this.handleCloseModal} container={this}>
@@ -38,12 +38,12 @@ describe('Modal', function () {
     let instance = ReactTestUtils.renderIntoDocument(
         <Container />
     );
-    assert.ok(instance.getDOMNode().className.match(/\modal-open\b/));
+    assert.ok(React.findDOMNode(instance).className.match(/\modal-open\b/));
 
-    let backdrop = instance.getDOMNode().getElementsByClassName('modal-backdrop')[0];
+    let backdrop = React.findDOMNode(instance).getElementsByClassName('modal-backdrop')[0];
     ReactTestUtils.Simulate.click(backdrop);
     setTimeout(function(){
-      assert.equal(instance.getDOMNode().className.length, 0);
+      assert.equal(React.findDOMNode(instance).className.length, 0);
       done();
     }, 0);
 
@@ -57,7 +57,7 @@ describe('Modal', function () {
       </Modal>
     );
 
-    let backdrop = instance.getDOMNode().getElementsByClassName('modal-backdrop')[0];
+    let backdrop = React.findDOMNode(instance).getElementsByClassName('modal-backdrop')[0];
     ReactTestUtils.Simulate.click(backdrop);
   });
 
@@ -69,7 +69,7 @@ describe('Modal', function () {
       </Modal>
     );
 
-    let backdrop = instance.getDOMNode().getElementsByClassName('modal')[0];
+    let backdrop = React.findDOMNode(instance).getElementsByClassName('modal')[0];
     ReactTestUtils.Simulate.click(backdrop);
   });
 
@@ -81,21 +81,81 @@ describe('Modal', function () {
       </Modal>
     );
 
-    let dialog = instance.getDOMNode().getElementsByClassName('modal-dialog')[0];
+    let dialog = React.findDOMNode(instance).getElementsByClassName('modal-dialog')[0];
     assert.ok(dialog.className.match(/\bmodal-sm\b/));
   });
 
-  it('Should pass bsStyle to the header', function () {
+  it('Should pass dialogClassName to the dialog', function () {
     let noOp = function () {};
     let instance = ReactTestUtils.renderIntoDocument(
-      <Modal bsStyle='danger' title="Title" onRequestHide={noOp}>
+      <Modal dialogClassName="testCss" onRequestHide={noOp}>
         <strong>Message</strong>
       </Modal>
     );
 
-    let header = instance.getDOMNode().getElementsByClassName('modal-header')[0];
-    assert.ok(header.className.match(/\bbg-danger\b/));
-    assert.ok(header.className.match(/\btext-danger\b/));
+    let dialog = ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'modal-dialog');
+    assert.match(dialog.props.className, /\btestCss\b/);
+  });
+
+  describe('Focused state', function () {
+    let focusableContainer = null;
+    beforeEach(function () {
+      focusableContainer = document.createElement('div');
+      focusableContainer.tabIndex = 0;
+      document.body.appendChild(focusableContainer);
+      focusableContainer.focus();
+    });
+
+    afterEach(function () {
+      React.unmountComponentAtNode(focusableContainer);
+      document.body.removeChild(focusableContainer);
+    });
+
+    it('Should focus on the Modal when it is opened', function (done) {
+      document.activeElement.should.equal(focusableContainer);
+
+      let doneOp = function () {
+        // focus should be back on the previous element when modal closed
+        setTimeout(function () {
+          document.activeElement.should.equal(focusableContainer);
+          done();
+        }, 0);
+      };
+
+      let Container = React.createClass({
+        getInitialState() {
+          return {modalOpen: true};
+        },
+        handleCloseModal() {
+          this.setState({modalOpen: false});
+          doneOp();
+        },
+        render() {
+          if (this.state.modalOpen) {
+            return (
+              <Modal onRequestHide={this.handleCloseModal} container={this}>
+                <strong>Message</strong>
+              </Modal>
+            );
+          } else {
+            return <span/>;
+          }
+        }
+      });
+
+      let instance = React.render(<Container />, focusableContainer);
+
+      setTimeout(function () {
+        // modal should be focused when opened
+        let modal = React.findDOMNode(instance).getElementsByClassName('modal')[0];
+        document.activeElement.should.equal(modal);
+
+        // close the modal
+        let backdrop = React.findDOMNode(instance).getElementsByClassName('modal-backdrop')[0];
+        ReactTestUtils.Simulate.click(backdrop);
+      }, 0);
+    });
+
   });
 
 });

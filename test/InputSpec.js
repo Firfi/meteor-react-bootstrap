@@ -4,19 +4,9 @@ import Input from '../src/Input';
 import Button from '../src/Button';
 import DropdownButton from '../src/DropdownButton';
 import MenuItem from '../src/MenuItem';
+import {shouldWarn} from './helpers';
 
 describe('Input', function () {
-  beforeEach(function() {
-    sinon.spy(console, 'warn');
-  });
-
-  afterEach(function() {
-    if (typeof console.warn.restore === 'function') {
-      console.warn.called.should.be.false;
-      console.warn.restore();
-    }
-  });
-
   it('renders children when type is not set', function () {
     let instance = ReactTestUtils.renderIntoDocument(
       <Input>
@@ -38,7 +28,7 @@ describe('Input', function () {
 
     let select = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'select');
     assert.ok(select);
-    assert.equal(select.getDOMNode().children.length, 2);
+    assert.equal(React.findDOMNode(select).children.length, 2);
     assert.equal(instance.getValue(), 'v');
   });
 
@@ -51,23 +41,36 @@ describe('Input', function () {
     assert.equal(instance.getValue(), 'v');
   });
 
-  it('renders a submit button element when type=submit', function () {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Input type="submit" bsStyle="danger" wrapperClassName='test' />
+  it('throws a deprecation warning on type=button', function () {
+    ReactTestUtils.renderIntoDocument(
+      <Input type="button" />
     );
 
-    let node = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'input').getDOMNode();
-    assert.equal(node.getAttribute('type'), 'submit');
-    assert.equal(node.getAttribute('class'), 'btn btn-danger');
+    shouldWarn('deprecated');
   });
 
-  it('renders a p element when type=static', function () {
-    let instance = ReactTestUtils.renderIntoDocument(
+  it('throws a deprecation warning on type=reset', function () {
+    ReactTestUtils.renderIntoDocument(
+      <Input type="reset" />
+    );
+
+    shouldWarn('deprecated');
+  });
+
+  it('throws a deprecation warning on type=submit', function () {
+    ReactTestUtils.renderIntoDocument(
+      <Input type="submit" />
+    );
+
+    shouldWarn('deprecated');
+  });
+
+  it('throws a warning when type=static', function () {
+    ReactTestUtils.renderIntoDocument(
       <Input type="static" value="v" />
     );
 
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'p'));
-    assert.equal(instance.getValue(), 'v');
+    shouldWarn('deprecated');
   });
 
   it('renders an input element of given type when type is anything else', function () {
@@ -75,7 +78,7 @@ describe('Input', function () {
       <Input type="text" defaultValue="v" />
     );
 
-    let node = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'input').getDOMNode();
+    let node = React.findDOMNode(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'input'));
     assert.equal(node.getAttribute('type'), 'text');
     assert.equal(instance.getValue(), 'v');
   });
@@ -85,7 +88,7 @@ describe('Input', function () {
       <Input groupClassName="group" bsStyle="error" />
     );
 
-    let node = instance.getDOMNode();
+    let node = React.findDOMNode(instance);
     assert.include(node.className, 'form-group');
     assert.include(node.className, 'group');
     assert.include(node.className, 'has-error');
@@ -96,7 +99,7 @@ describe('Input', function () {
       <Input label="Label" labelClassName="label" id="input" />
     );
 
-    let node = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'label').getDOMNode();
+    let node = React.findDOMNode(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'label'));
     assert.ok(node);
     assert.include(node.className, 'label');
     assert.equal(node.textContent, 'Label');
@@ -119,6 +122,22 @@ describe('Input', function () {
 
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'input-group'));
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'input-group-addon'));
+  });
+
+  it('renders form-group with sm or lg class when bsSize is small or large', function () {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Input bsSize="small" />
+    );
+
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group'));
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group-sm'));
+
+    instance = ReactTestUtils.renderIntoDocument(
+      <Input bsSize="large" />
+    );
+
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group'));
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group-lg'));
   });
 
   it('renders input-group with sm or lg class name when bsSize is small or large', function () {
@@ -204,7 +223,7 @@ describe('Input', function () {
       <Input type="file" wrapperClassName="wrapper" label="Label" help="h" />
     );
 
-    let node = instance.getDOMNode();
+    let node = React.findDOMNode(instance);
     assert.include(node.className, 'form-group');
     assert.equal(node.children[0].tagName.toLowerCase(), 'label');
     assert.include(node.children[1].className, 'wrapper');
@@ -219,7 +238,7 @@ describe('Input', function () {
       <Input type="checkbox" wrapperClassName="wrapper" label="Label" help="h" />
     );
 
-    let node = instance.getDOMNode();
+    let node = React.findDOMNode(instance);
     assert.include(node.className, 'form-group');
     assert.include(node.children[0].className, 'wrapper');
     assert.include(node.children[0].children[0].className, 'checkbox');
@@ -233,7 +252,7 @@ describe('Input', function () {
       <Input type="text" label="l" wrapperClassName="wrapper" addonAfter="a" hasFeedback={true} help="h"/>
     );
 
-    let node = instance.getDOMNode();
+    let node = React.findDOMNode(instance);
     assert.include(node.className, 'form-group');
     assert.equal(node.children[0].tagName.toLowerCase(), 'label');
     assert.include(node.children[1].className, 'wrapper');
@@ -281,7 +300,7 @@ describe('Input', function () {
       <Input type="text" disabled={true} />
     );
 
-    let node = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'input').getDOMNode();
+    let node = React.findDOMNode(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'input'));
     assert.isNotNull(node.getAttribute('disabled'));
   });
 });

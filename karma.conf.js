@@ -1,8 +1,9 @@
 /* eslint no-var: 0 */
-require('./register-babel');
+require('babel/register');
 
 var webpackConfig = require('./webpack/test.config.js');
 var isCI = process.env.CONTINUOUS_INTEGRATION === 'true';
+var devBrowser = process.env.PHANTOM ? 'PhantomJS' : 'Chrome';
 
 module.exports = function (config) {
   config.set({
@@ -12,7 +13,8 @@ module.exports = function (config) {
     frameworks: [
       'mocha',
       'chai',
-      'sinon'
+      'sinon',
+      'sinon-chai'
     ],
 
     files: [
@@ -43,10 +45,17 @@ module.exports = function (config) {
 
     autoWatch: true,
 
-    browsers: [ isCI ? 'PhantomJS' : 'Chrome' ],
+    browsers: [ isCI ? 'ChromeTravisCI' : devBrowser ],
+
+    customLaunchers: {
+      ChromeTravisCI: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
     captureTimeout: 60000,
-    browserNoActivityTimeout: 30000,
+    browserNoActivityTimeout: 45000,
 
     singleRun: isCI
   });

@@ -1,10 +1,11 @@
-import from 'colors';
+import 'colors';
 import path from 'path';
 import fsp from 'fs-promise';
 import semver from 'semver';
-import { exec, spawn } from 'child-process-promise';
+import { safeExec } from '../exec';
+import { repoRoot } from '../constants';
 
-export default function(repoRoot, { preid, type }) {
+export default function({ preid, type }) {
   const packagePath = path.join(repoRoot, 'package.json');
 
   return () => fsp.readFile(packagePath, { encoding: 'utf8' })
@@ -35,7 +36,7 @@ export default function(repoRoot, { preid, type }) {
       json.version = version;
 
       return fsp.writeFile(packagePath, JSON.stringify(json, null, 2))
-        .then(() => exec(`git add ${packagePath}`))
+        .then(() => safeExec(`git add ${packagePath}`))
         .then(() => json.version);
     });
 }

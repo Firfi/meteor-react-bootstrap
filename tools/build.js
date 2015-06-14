@@ -1,51 +1,26 @@
-/* eslint no-process-exit: 0 */
-
-import from 'colors';
-import path from 'path';
+import 'colors';
 import bower from './amd/build';
 import lib from './lib/build';
-import docs from '../docs/build';
 import dist from './dist/build';
 import { copy } from './fs-utils';
-import { exec, spawn } from 'child-process-promise';
+import { distRoot, bowerRoot } from './constants';
+import { exec } from './exec';
 
-import yargs from 'yargs';
+function forkAndBuildDocs(verbose) {
+  console.log('Building: '.cyan + 'docs'.green);
 
-const repoRoot = path.resolve(__dirname, '../');
-const distFolder = path.join(repoRoot, 'dist');
-const amdFolder = path.join(repoRoot, 'amd');
+  let options = verbose ? ' -- --verbose' : '';
 
-const argv = yargs
-  .option('docs-only', {
-    demand: false,
-    default: false
-  })
-  .argv;
+  return exec(`npm run docs-build${options}`)
+    .then(() => console.log('Built: '.cyan + 'docs'.green));
+}
 
-export default function Build(noExitOnFailure) {
-  if (argv.docsOnly) {
-    return docs();
-  } else {
-    let result = Promise.all([
+export default function Build(verbose) {
+  return Promise.all([
       lib(),
       bower(),
       dist(),
-      docs()
+      forkAndBuildDocs(verbose)
     ])
-    .then(() => copy(distFolder, amdFolder));
-
-    if (!noExitOnFailure) {
-      result = result
-        .catch(err => {
-          console.error(err.toString().red);
-          if (err.stack) {
-            console.error(err.stack.red);
-          }
-          process.exit(1);
-        });
-    }
-
-    return result;
-  }
+    .then(() => copy(distRoot, bowerRoot));
 }
-

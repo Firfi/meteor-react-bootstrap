@@ -2,13 +2,13 @@ import React, { cloneElement } from 'react';
 import classNames from 'classnames';
 
 import BootstrapMixin from './BootstrapMixin';
-import CollapsableMixin from './CollapsableMixin';
+import CollapsibleMixin from './CollapsibleMixin';
 
 const Panel = React.createClass({
-  mixins: [BootstrapMixin, CollapsableMixin],
+  mixins: [BootstrapMixin, CollapsibleMixin],
 
   propTypes: {
-    collapsable: React.PropTypes.bool,
+    collapsible: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
     header: React.PropTypes.node,
     id: React.PropTypes.string,
@@ -41,11 +41,11 @@ const Panel = React.createClass({
     this.setState({expanded:!this.state.expanded});
   },
 
-  getCollapsableDimensionValue() {
+  getCollapsibleDimensionValue() {
     return React.findDOMNode(this.refs.panel).scrollHeight;
   },
 
-  getCollapsableDOMNode() {
+  getCollapsibleDOMNode() {
     if (!this.isMounted() || !this.refs || !this.refs.panel) {
       return null;
     }
@@ -54,25 +54,23 @@ const Panel = React.createClass({
   },
 
   render() {
-    let classes = this.getBsClassSet();
-
     return (
       <div {...this.props}
-        className={classNames(this.props.className, classes)}
-        id={this.props.collapsable ? null : this.props.id} onSelect={null}>
+        className={classNames(this.props.className, this.getBsClassSet())}
+        id={this.props.collapsible ? null : this.props.id} onSelect={null}>
         {this.renderHeading()}
-        {this.props.collapsable ? this.renderCollapsableBody() : this.renderBody()}
+        {this.props.collapsible ? this.renderCollapsibleBody() : this.renderBody()}
         {this.renderFooter()}
       </div>
     );
   },
 
-  renderCollapsableBody() {
+  renderCollapsibleBody() {
     let collapseClass = this.prefixClass('collapse');
 
     return (
       <div
-        className={classNames(this.getCollapsableClassSet(collapseClass))}
+        className={classNames(this.getCollapsibleClassSet(collapseClass))}
         id={this.props.id}
         ref='panel'
         aria-expanded={this.isExpanded() ? 'true' : 'false'}>
@@ -150,19 +148,21 @@ const Panel = React.createClass({
     }
 
     if (!React.isValidElement(header) || Array.isArray(header)) {
-      header = this.props.collapsable ?
-        this.renderCollapsableTitle(header) : header;
-    } else if (this.props.collapsable) {
-
-      header = cloneElement(header, {
-        className: classNames(this.prefixClass('title')),
-        children: this.renderAnchor(header.props.children)
-      });
+      header = this.props.collapsible ?
+        this.renderCollapsibleTitle(header) : header;
     } else {
+      const className = classNames(
+        this.prefixClass('title'), header.props.className
+      );
 
-      header = cloneElement(header, {
-        className: classNames(this.prefixClass('title'))
-      });
+      if (this.props.collapsible) {
+        header = cloneElement(header, {
+          className,
+          children: this.renderAnchor(header.props.children)
+        });
+      } else {
+        header = cloneElement(header, {className});
+      }
     }
 
     return (
@@ -184,7 +184,7 @@ const Panel = React.createClass({
     );
   },
 
-  renderCollapsableTitle(header) {
+  renderCollapsibleTitle(header) {
     return (
       <h4 className={this.prefixClass('title')}>
         {this.renderAnchor(header)}

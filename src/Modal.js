@@ -20,7 +20,8 @@ const Modal = React.createClass({
     keyboard: React.PropTypes.bool,
     closeButton: React.PropTypes.bool,
     animation: React.PropTypes.bool,
-    onRequestHide: React.PropTypes.func.isRequired
+    onRequestHide: React.PropTypes.func.isRequired,
+    dialogClassName: React.PropTypes.string
   },
 
   getDefaultProps() {
@@ -42,7 +43,7 @@ const Modal = React.createClass({
     let classes = {
       modal: true,
       fade: this.props.animation,
-      'in': !this.props.animation || !document.querySelectorAll
+      'in': !this.props.animation
     };
 
     let modal = (
@@ -55,8 +56,8 @@ const Modal = React.createClass({
         className={classNames(this.props.className, classes)}
         onClick={this.props.backdrop === true ? this.handleBackdropClick : null}
         ref="modal">
-        <div className={classNames(dialogClasses)}>
-          <div className="modal-content" style={{overflow: 'hidden'}}>
+        <div className={classNames(this.props.dialogClassName, dialogClasses)}>
+          <div className="modal-content">
             {this.props.title ? this.renderHeader() : null}
             {this.props.children}
           </div>
@@ -71,10 +72,9 @@ const Modal = React.createClass({
   renderBackdrop(modal) {
     let classes = {
       'modal-backdrop': true,
-      'fade': this.props.animation
+      fade: this.props.animation,
+      'in': !this.props.animation
     };
-
-    classes.in = !this.props.animation || !document.querySelectorAll;
 
     let onClick = this.props.backdrop === true ?
       this.handleBackdropClick : null;
@@ -95,17 +95,8 @@ const Modal = React.createClass({
         );
     }
 
-    let style = this.props.bsStyle;
-    let classes = {
-      'modal-header': true
-    };
-    classes['bg-' + style] = style;
-    classes['text-' + style] = style;
-
-    let className = classNames(classes);
-
     return (
-      <div className={className}>
+      <div className="modal-header">
         {closeButton}
         {this.renderTitle()}
       </div>
@@ -135,6 +126,8 @@ const Modal = React.createClass({
           domUtils.ownerDocument(this).body;
     container.className += container.className.length ? ' modal-open' : 'modal-open';
 
+    this.focusModalContent();
+
     if (this.props.backdrop) {
       this.iosClickHack();
     }
@@ -151,6 +144,8 @@ const Modal = React.createClass({
     let container = (this.props.container && React.findDOMNode(this.props.container)) ||
           domUtils.ownerDocument(this).body;
     container.className = container.className.replace(/ ?modal-open/, '');
+
+    this.restoreLastFocus();
   },
 
   handleBackdropClick(e) {
@@ -164,6 +159,19 @@ const Modal = React.createClass({
   handleDocumentKeyUp(e) {
     if (this.props.keyboard && e.keyCode === 27) {
       this.props.onRequestHide();
+    }
+  },
+
+  focusModalContent () {
+    this.lastFocus = domUtils.ownerDocument(this).activeElement;
+    let modalContent = React.findDOMNode(this.refs.modal);
+    modalContent.focus();
+  },
+
+  restoreLastFocus () {
+    if (this.lastFocus) {
+      this.lastFocus.focus();
+      this.lastFocus = null;
     }
   }
 });

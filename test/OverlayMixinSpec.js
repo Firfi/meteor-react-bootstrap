@@ -8,18 +8,18 @@ describe('OverlayMixin', function () {
   let Overlay = React.createClass({
     mixins: [OverlayMixin],
 
-    render: function() {
+    render() {
       return <div />;
     },
 
-    renderOverlay: function() {
+    renderOverlay() {
       return this.props.overlay;
     }
   });
 
   afterEach(function() {
     if (instance && ReactTestUtils.isCompositeComponent(instance) && instance.isMounted()) {
-      React.unmountComponentAtNode(instance.getDOMNode());
+      React.unmountComponentAtNode(React.findDOMNode(instance));
     }
   });
 
@@ -35,7 +35,7 @@ describe('OverlayMixin', function () {
 
   it('Should render overlay into container (ReactComponent)', function() {
     let Container = React.createClass({
-      render: function() {
+      render() {
         return <Overlay container={this} overlay={<div id="test1" />} />;
       }
     });
@@ -44,12 +44,12 @@ describe('OverlayMixin', function () {
       <Container />
     );
 
-    assert.equal(instance.getDOMNode().querySelectorAll('#test1').length, 1);
+    assert.equal(React.findDOMNode(instance).querySelectorAll('#test1').length, 1);
   });
 
   it('Should not render a null overlay', function() {
     let Container = React.createClass({
-      render: function() {
+      render() {
         return <Overlay ref='overlay' container={this} overlay={null} />;
       }
     });
@@ -65,11 +65,11 @@ describe('OverlayMixin', function () {
     let OnlyOverlay = React.createClass({
       mixins: [OverlayMixin],
 
-      render: function() {
+      render() {
         return null;
       },
 
-      renderOverlay: function() {
+      renderOverlay() {
         return this.props.overlay;
       }
     });

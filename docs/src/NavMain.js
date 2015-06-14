@@ -1,9 +1,13 @@
 import React from 'react';
-import Router, { Link } from 'react-router';
+import { Link } from 'react-router';
 import Navbar from '../../src/Navbar';
 import Nav from '../../src/Nav';
 
 const NAV_LINKS = {
+  'introduction': {
+    link: 'introduction',
+    title: 'Introduction'
+  },
   'getting-started': {
     link: 'getting-started',
     title: 'Getting started'
@@ -20,7 +24,7 @@ const NavMain = React.createClass({
   },
 
   render() {
-    let brand = <Link to='home' className="navbar-brand">React Bootstrap</Link>;
+    let brand = <Link to='home' className="navbar-brand">React-Bootstrap</Link>;
     let links = Object.keys(NAV_LINKS).map(this.renderNavItem).concat([
       <li key='github-link'>
         <a href='https://github.com/react-bootstrap/react-bootstrap' target='_blank'>GitHub</a>

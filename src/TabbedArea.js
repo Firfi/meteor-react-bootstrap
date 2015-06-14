@@ -40,9 +40,6 @@ const TabbedArea = React.createClass({
     let defaultActiveKey = this.props.defaultActiveKey != null ?
       this.props.defaultActiveKey : getDefaultActiveKeyFromChildren(this.props.children);
 
-    // TODO: In __DEV__ mode warn via `console.warn` if no `defaultActiveKey` has
-    // been set by this point, invalid children or missing key properties are likely the cause.
-
     return {
       activeKey: defaultActiveKey,
       previousActiveKey: null
@@ -102,18 +99,20 @@ const TabbedArea = React.createClass({
           key: child.key ? child.key : index,
           animation: this.props.animation,
           onAnimateOutEnd: (this.state.previousActiveKey != null &&
-            child.props.eventKey === this.state.previousActiveKey) ? this.handlePaneAnimateOutEnd: null
+            child.props.eventKey === this.state.previousActiveKey) ? this.handlePaneAnimateOutEnd : null
         }
       );
   },
 
   renderTab(child) {
-    let key = child.props.eventKey;
+    let {eventKey, className, tab, disabled } = child.props;
     return (
       <NavItem
-        ref={'tab' + key}
-        eventKey={key}>
-        {child.props.tab}
+        ref={'tab' + eventKey}
+        eventKey={eventKey}
+        className={className}
+        disabled={disabled}>
+        {tab}
       </NavItem>
     );
   },

@@ -1,8 +1,6 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.10"
-  - "0.12"
   - "iojs"
 notifications:
   webhooks:
@@ -11,3 +9,7 @@ notifications:
     on_success: always
     on_failure: always
     on_start: false
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start

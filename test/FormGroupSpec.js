@@ -1,19 +1,9 @@
 import React from 'react';
 import ReactTestUtils from 'react/lib/ReactTestUtils';
 import FormGroup from '../src/FormGroup';
+import {shouldWarn} from './helpers';
 
 describe('FormGroup', function() {
-  beforeEach(function() {
-    sinon.spy(console, 'warn');
-  });
-
-  afterEach(function() {
-    if (typeof console.warn.restore === 'function') {
-      console.warn.called.should.be.false;
-      console.warn.restore();
-    }
-  });
-
   it('renders children', function() {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup>
@@ -36,6 +26,43 @@ describe('FormGroup', function() {
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group'));
   });
 
+  it('renders form-group with sm or lg class when bsSize is small or large', function () {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <FormGroup bsSize="small">
+        <span />
+      </FormGroup>
+    );
+
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group'));
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group-sm'));
+
+    instance = ReactTestUtils.renderIntoDocument(
+      <FormGroup bsSize="large">
+        <span />
+      </FormGroup>
+    );
+
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group'));
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'form-group-lg'));
+  });
+
+  // This test case must come first, since the error only gets logged once.
+  it('throws no warning without bsSize when standalone', function () {
+    ReactTestUtils.renderIntoDocument(
+      <FormGroup standalone />
+    );
+
+    // Warning thrown above would lead to failure from index.
+  });
+
+  it('throws warning about bsSize when standalone', function () {
+    ReactTestUtils.renderIntoDocument(
+      <FormGroup standalone bsSize="large" />
+    );
+
+    shouldWarn('Failed propType: bsSize');
+  });
+
   it('renders no form-group class when standalone', function() {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup standalone>
@@ -44,6 +71,15 @@ describe('FormGroup', function() {
     );
 
     assert.equal(ReactTestUtils.scryRenderedDOMComponentsWithClass(instance, 'form-group').length, 0);
+  });
+
+  it('renders no form-group-* class when standalone', function () {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <FormGroup standalone bsSize="large" />
+    );
+
+    assert.equal(ReactTestUtils.scryRenderedDOMComponentsWithClass(instance, 'form-group').length, 0);
+    assert.equal(ReactTestUtils.scryRenderedDOMComponentsWithClass(instance, 'form-group-lg').length, 0);
   });
 
   [{

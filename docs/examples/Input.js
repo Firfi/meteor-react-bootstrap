@@ -27,12 +27,11 @@ const ExampleInput = React.createClass({
         value={this.state.value}
         placeholder='Enter text'
         label='Working example with validation'
-        help='Validates based on string length.'
+        help='Validation is based on string length.'
         bsStyle={this.validationState()}
         hasFeedback
         ref='input'
         groupClassName='group-class'
-        wrapperClassName='wrapper-class'
         labelClassName='label-class'
         onChange={this.handleChange} />
     );

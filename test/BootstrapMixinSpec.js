@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react/lib/ReactTestUtils';
 import BootstrapMixin from '../src/BootstrapMixin';
+import styleMaps from '../src/styleMaps';
 
 let Component;
 
@@ -9,7 +10,7 @@ describe('BootstrapMixin', function () {
     Component = React.createClass({
       mixins: [BootstrapMixin],
 
-      render: function () {
+      render() {
         return React.DOM.button(this.props);
       }
     });
@@ -194,6 +195,16 @@ describe('BootstrapMixin', function () {
         </Component>
       );
       assert.equal(instance.prefixClass('title'), 'btn-title');
+    });
+
+    it('should return "btn btn-wacky"', function () {
+      styleMaps.addStyle('wacky');
+      let instance = ReactTestUtils.renderIntoDocument(
+        <Component bsClass='button' bsStyle='wacky'>
+          content
+        </Component>
+      );
+      assert.deepEqual(instance.getBsClassSet(), {'btn': true, 'btn-wacky': true});
     });
   });
 });

@@ -1,39 +1,48 @@
 import React from 'react';
 import classNames from 'classnames';
 import BootstrapMixin from './BootstrapMixin';
+import FadeMixin from './FadeMixin';
 
 const Popover = React.createClass({
-  mixins: [BootstrapMixin],
+  mixins: [BootstrapMixin, FadeMixin],
 
   propTypes: {
     placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     positionLeft: React.PropTypes.number,
     positionTop: React.PropTypes.number,
-    arrowOffsetLeft: React.PropTypes.number,
-    arrowOffsetTop: React.PropTypes.number,
-    title: React.PropTypes.node
+    arrowOffsetLeft: React.PropTypes.oneOfType([
+      React.PropTypes.number, React.PropTypes.string
+    ]),
+    arrowOffsetTop: React.PropTypes.oneOfType([
+      React.PropTypes.number, React.PropTypes.string
+    ]),
+    title: React.PropTypes.node,
+    animation: React.PropTypes.bool
   },
 
   getDefaultProps() {
     return {
-      placement: 'right'
+      placement: 'right',
+      animation: true
     };
   },
 
   render() {
-    let classes = {
+    const classes = {
       'popover': true,
       [this.props.placement]: true,
-      'in': this.props.positionLeft != null || this.props.positionTop != null
+      // in class will be added by the FadeMixin when the animation property is true
+      'in': !this.props.animation && (this.props.positionLeft != null || this.props.positionTop != null),
+      'fade': this.props.animation
     };
 
-    let style = {
+    const style = {
       'left': this.props.positionLeft,
       'top': this.props.positionTop,
       'display': 'block'
     };
 
-    let arrowStyle = {
+    const arrowStyle = {
       'left': this.props.arrowOffsetLeft,
       'top': this.props.arrowOffsetTop
     };

@@ -12,13 +12,15 @@
     "Badge",
     "Button",
     "ButtonGroup",
+    "ButtonInput",
     "ButtonToolbar",
-    "CollapsableNav",
-    "CollapsableMixin",
+    "CollapsibleNav",
+    "CollapsibleMixin",
     "Carousel",
     "CarouselItem",
     "Col",
     "DropdownButton",
+    "FormControls",
     "Glyphicon",
     "Grid",
     "Input",
@@ -37,6 +39,7 @@
     "PageHeader",
     "PageItem",
     "Pager",
+    "Pagination",
     "Panel",
     "PanelGroup",
     "Popover",
@@ -47,6 +50,7 @@
     "Table",
     "TabPane",
     "Tooltip",
-    "Well"
+    "Well",
+    "Thumbnail"
   }
 }

@@ -1,11 +1,18 @@
-import { exec, spawn } from 'child-process-promise';
+import 'colors';
+import { safeExec } from '../exec';
+import semver from 'semver';
+import tag from './tag';
 
 export default (version) => {
   console.log('Releasing: '.cyan + 'npm module'.green);
+  let parsed = semver.parse(version);
+  let additionalPublishArgs = '';
 
-  return exec(`git tag -a --message=v${version} v${version}`)
-    .then(() => exec(`git push`))
-    .then(() => exec(`git push --tags`))
-    .then(() => exec('npm publish'))
+  if (parsed.prerelease.length > 0) {
+    additionalPublishArgs = `--tag ${parsed.prerelease[0]}`;
+  }
+
+  return tag(version)
+    .then(() => safeExec(`npm publish ${additionalPublishArgs}`))
     .then(() => console.log('Released: '.cyan + 'npm module'.green));
-}
+};
